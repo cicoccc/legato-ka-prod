@@ -1,0 +1,164 @@
+{
+  "skill_name": "legato-germany-investment-tax-compliance",
+  "version": "v0.1-productized-draft",
+  "evals": [
+    {
+      "id": "typical-germany-entry-triage",
+      "type": "典型命中",
+      "prompt": "我们是一家中国制造企业，准备在德国设 GmbH 做销售和售后安装，请给管理层一份税务与合规初筛。",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别为德国落地全景初筛，覆盖实体设立、VAT、PE、TP、劳动和 Geschäftsführer 责任。",
+        "应先写专家初筛框架，再写检索和工具路径。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见输出不得暴露知识库检索函数名、具体联网搜索工具名、MCP 或内部工具名。"
+      ]
+    },
+    {
+      "id": "pe-service-installation-threshold",
+      "type": "典型命中",
+      "prompt": "我们派工程师去德国客户现场安装调试，预计一年内累计 190 天，会不会形成常设机构？",
+      "expected_behavior": [
+        "应触发本 Skill 并识别为 PE 风险初筛。",
+        "应区分项目/安装 PE 的 12 个月阈值、服务/咨询 PE 的任意 12 个月累计超过 183 天、固定场所 PE 和代理 PE。",
+        "应使用德国官方来源或中德税收协定文本核验关键阈值。",
+        "不应机械得出最终 PE 结论，应列出同一或关联项目、合同拆分、人员记录和现场活动等事实缺口。",
+        "即使是 PE 单点风险初筛，也应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "应提示德国税务顾问人工复核。"
+      ]
+    },
+    {
+      "id": "vat-fba-warehouse",
+      "type": "典型命中",
+      "prompt": "我们在德国用 FBA 和海外仓卖货，想知道 VAT 注册、OSS 和平台风险。",
+      "expected_behavior": [
+        "应触发本 Skill 并识别为 VAT 与跨境销售分型。",
+        "应检查仓储地、客户类型、平台销售、VAT ID、申报周期、平台通知和账号冻结风险。",
+        "应优先核验德国官方来源或 EU/BZSt 官方材料；若未完成官方核验，应明确标为初筛。",
+        "不应给出精确税额或申报结论。",
+        "应输出材料清单和税务顾问复核提示。"
+      ]
+    },
+    {
+      "id": "tp-management-fee",
+      "type": "典型命中",
+      "prompt": "德国子公司每年向中国母公司支付管理费和技术服务费，德国税务机关会怎么看？",
+      "expected_behavior": [
+        "应触发本 Skill 并识别为转让定价与关联交易分型。",
+        "应检查关联关系、功能风险资产、受益证据、合同、发票、交付记录、成本分摊逻辑和同期资料。",
+        "应以 BMF 2024 转让定价行政原则作为官方核验入口之一。",
+        "不应生成 benchmark、利润率区间或最终可扣除结论。",
+        "应输出证据链清单和人工复核触发。"
+      ]
+    },
+    {
+      "id": "labor-minimum-wage-nachwg",
+      "type": "联网默认开启",
+      "prompt": "德国员工合同和最低工资有什么最新要求？我们听说 2026 年最低工资是 12.82 欧元。",
+      "expected_behavior": [
+        "应触发本 Skill 并识别为劳动用工分型。",
+        "应联网核验 BMAS 最低工资官方页面。",
+        "应纠正旧数值：2026 年 13.90 欧元，2027 年 14.60 欧元，并说明需按官方页面更新复核。",
+        "应说明 NachwG 当前不应绝对写成只能纸质书面，存在条件性文本形式/电子传输规则、例外和员工要求书面证明机制。",
+        "应提示高风险用工和合同模板需德国劳动律师复核。"
+      ]
+    },
+    {
+      "id": "gf-insolvency-redflag",
+      "type": "典型命中",
+      "prompt": "我们派去德国 GmbH 的总经理现在现金流很紧，VAT 和社保可能缴不上，他个人会不会担责？",
+      "expected_behavior": [
+        "应触发本 Skill 并识别为 Geschäftsführer 责任分型。",
+        "应列出欠缴税款、社保、现金流、资不抵债、选择性付款和破产申请义务红旗。",
+        "不应判断是否已经破产或是否已经构成个人责任。",
+        "应输出紧急行动清单和德国破产/税务律师复核提示。",
+        "应避免给出最终法律意见。"
+      ]
+    },
+    {
+      "id": "near-miss-gdpr",
+      "type": "相邻误触发",
+      "prompt": "我们德国子公司要处理客户个人数据，帮我做一份 GDPR 合规方案。",
+      "expected_behavior": [
+        "不应由本 Skill 主承接。",
+        "应说明本 Skill 只可补充德国实体运营、劳动、税务和管理责任中的相关边界。",
+        "应建议由数据合规或出海法律研究相关 Skill 承接 GDPR 主问题。"
+      ]
+    },
+    {
+      "id": "near-miss-customs-classification",
+      "type": "相邻误触发",
+      "prompt": "我们的设备出口德国，HS code 怎么归类、原产地怎么判？",
+      "expected_behavior": [
+        "不应由本 Skill 主承接精确海关归类。",
+        "应说明关税、海关归类、原产地和海关估价不在第一版边界内。",
+        "可提示本 Skill 能补充德国落地后的 VAT、实体和运营风险。"
+      ]
+    },
+    {
+      "id": "insufficient-facts",
+      "type": "信息不足",
+      "prompt": "我们去德国做业务会有什么税务风险？",
+      "expected_behavior": [
+        "应继续推进初筛，但明确当前缺少业务模式、德国实体、仓库、人员、合同、发票、资金流等事实。",
+        "不应调用 ask_user_question。",
+        "应基于假设输出风险雷达和 1-3 类最关键补充信息。",
+        "应把结论标为初筛或需复核。"
+      ]
+    },
+    {
+      "id": "limited-knowledge-scope",
+      "type": "限定知识库范围",
+      "prompt": "只基于我本次挂载的项目资料，先看我们德国项目有没有 PE 红旗；资料不够再说缺什么。",
+      "expected_behavior": [
+        "应使用 query_legato_ragflow 检索当前前端限定范围。",
+        "不得自行选择知识库、文件夹或文件。",
+        "若本次挂载资料无足够可定位片段，应在用户可见输出中说明本次挂载资料范围内未召回足够材料。",
+        "除非用户允许补充外部核验或任务需要官方阈值，否则不要把外部资料混成项目事实。"
+      ]
+    },
+    {
+      "id": "source-conflict-dividend-20-25",
+      "type": "来源冲突",
+      "prompt": "培训材料说德国向中国母公司分红 20% 持股就能用 5% 预提税率，你确认一下。",
+      "expected_behavior": [
+        "应触发本 Skill 并联网核验中德税收协定官方文本。",
+        "应纠正股息预提税 5% 条款的直接持股门槛为至少 25% 资本。",
+        "应说明 20% 出现在不同条款语境，不能与 Art. 10(2)(a) 混同。",
+        "应显式说明专家材料或培训材料与官方来源存在冲突。"
+      ]
+    },
+    {
+      "id": "user-visible-source-language",
+      "type": "用户可见语言",
+      "prompt": "请生成报告，并说明你用了哪些来源。",
+      "expected_behavior": [
+        "用户可见来源说明应使用本次挂载资料、专家材料、德国官方来源、联网公开来源、企业工商与风险数据等名称。",
+        "不得在聊天回答、报告、脚注或来源说明中出现知识库检索函数名、具体联网搜索工具名、MCP、qcc-company 等内部名称。",
+        "内部工具名只可出现在运行 trace、eval 内部预期或研发排查材料中。"
+      ]
+    },
+    {
+      "id": "followup-edit-existing-report",
+      "type": "后续同研究修改",
+      "prompt": "在刚才德国初筛报告里补一节 VAT / OSS 风险，并更新管理层行动清单。",
+      "expected_behavior": [
+        "应识别为同一德国研究的后续修改。",
+        "应使用 edit_file 更新既有正式 Markdown 交付物，而不是重新 write_file 新报告。",
+        "更新后应使用 present_artifacts 展示更新结果。",
+        "用户可见回答和报告不得暴露 edit_file、present_artifacts 等内部工具名。"
+      ]
+    },
+    {
+      "id": "followup-new-research-new-artifact",
+      "type": "后续无关新研究",
+      "prompt": "另外研究一下印尼雇佣本地员工的用工模式。",
+      "expected_behavior": [
+        "应识别为无关新研究，不应继续编辑刚才的德国初筛报告。",
+        "应路由到海外组织设立与用工初筛或出海法律研究能力承接。",
+        "新研究应使用 write_file 创建新的正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见回答和报告不得暴露 write_file、present_artifacts 等内部工具名。"
+      ]
+    }
+  ]
+}

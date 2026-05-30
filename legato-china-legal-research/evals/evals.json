@@ -1,0 +1,200 @@
+{
+  "skill_name": "legato-china-legal-research",
+  "version": "v0.1-productized",
+  "evals": [
+    {
+      "id": "typical-law-basis",
+      "type": "典型命中",
+      "prompt": "数据跨境传输在中国法上有哪些法定条件？请先找决定性法条依据。",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别为法条依据确认或国内合规操作。",
+        "应优先使用 yuandian-law 的法规 / 法条检索路径。",
+        "不应默认调用案例 MCP。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见回答和报告中应称为中国法律法规库，不暴露内部 MCP 或工具函数名。"
+      ]
+    },
+    {
+      "id": "article-pinpoint",
+      "type": "典型命中",
+      "prompt": "个人信息保护法第三十八条怎么写？我只想拿到条文依据。",
+      "expected_behavior": [
+        "应识别为条文精确定位。",
+        "应使用 yuandian_rh_ft_search / yuandian_rh_ft_detail 或等价法条详情路径。",
+        "不应使用案例 MCP。",
+        "即使用户只想拿到条文依据，也应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见输出只说明中国法律法规库返回的条文依据。"
+      ]
+    },
+    {
+      "id": "case-keyword",
+      "type": "典型命中",
+      "prompt": "广东有没有买卖合同纠纷的指导性案例或典型案例？",
+      "expected_behavior": [
+        "应识别为结构化案例定位。",
+        "应优先使用 yuandian_rh_qwal_search。",
+        "权威案例不足且确需样本时，才考虑 yuandian_rh_ptal_search。",
+        "应说明案例来源层级和可定位片段。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见输出只说明中国案例库，不暴露内部工具名。"
+      ]
+    },
+    {
+      "id": "near-miss-outbound",
+      "type": "相邻误触发",
+      "prompt": "我们现在问的主问题是进入越南市场设点路径，中国法只是背景，不是主问题。",
+      "expected_behavior": [
+        "应识别为域外法 / 出海主问题，不应强行按中国法研究推进。",
+        "只可说明本 Skill 能提供的中国法补充边界。",
+        "应建议由出海法律研究或相关研究包主 Skill 承接。"
+      ]
+    },
+    {
+      "id": "insufficient-facts",
+      "type": "信息不足",
+      "prompt": "我们这个业务能不能合法做？先给我一个中国法判断。",
+      "expected_behavior": [
+        "不进入即时追问流程。",
+        "应说明当前缺少业务类型、主体、行业、数据类型、交易结构等关键事实。",
+        "可基于明确假设做有限初筛。",
+        "应列出 1-3 类会改变结论的人工补充信息。"
+      ]
+    },
+    {
+      "id": "web-search-default-on",
+      "type": "联网默认开启",
+      "prompt": "最近数据出境监管有没有新变化？请区分已生效规则、草案和官方动态。",
+      "expected_behavior": [
+        "应识别为监管动态追踪。",
+        "应优先用 yuandian-law 核验法规和时效。",
+        "应调用运行时可见的联网搜索工具检索最新官方动态；具体工具选择遵循系统级搜索工具选择策略。",
+        "应优先官方来源，不用媒体快讯单独支撑结论。",
+        "用户可见输出应称为中国法律法规库和联网公开来源。"
+      ]
+    },
+    {
+      "id": "limited-knowledge-scope",
+      "type": "限定知识库范围",
+      "prompt": "只基于我本次选择的项目资料，看看我们内部对个人信息出境安全评估有没有既有口径；如果不够，再补中国法依据。",
+      "expected_behavior": [
+        "应使用 query_legato_ragflow 检索当前前端限定范围。",
+        "不得自行选择知识库、文件夹或文件。",
+        "若 RAGFlow 无结果，用户可见输出应说明本次挂载资料范围内未召回足够材料。",
+        "再使用 yuandian-law 补充中国法依据。"
+      ]
+    },
+    {
+      "id": "product-tool-boundary",
+      "type": "产品工具边界",
+      "prompt": "请按中国法 Skill 做一个法律备忘录，并导出给我。",
+      "expected_behavior": [
+        "应使用 query_legato_ragflow 处理私域材料检索。",
+        "应使用元典 MCP 处理法规和案例检索。",
+        "应使用 write_file 生成正式 Markdown 报告文件。",
+        "应使用 present_artifacts 展示正式 Markdown 报告。",
+        "如用户要求 Word，应说明当前 Skill 主路径为 Markdown 交付，Word 导出由产品交付链路处理。",
+        "正式报告中不得出现供应商名、MCP ID 或工具函数名。"
+      ]
+    },
+    {
+      "id": "user-visible-source-language",
+      "type": "用户可见语言",
+      "prompt": "请生成一份中国法报告，里面说明你用了哪些来源。",
+      "expected_behavior": [
+        "用户可见来源说明应使用中国法律法规库、中国案例库、本次挂载资料、联网公开来源等名称。",
+        "不得在聊天回答、报告、脚注或来源说明中出现内部 MCP ID、知识库检索函数名、具体联网搜索工具名、MCP 等内部名称。",
+        "内部工具名只可出现在运行 trace、eval 内部预期或研发排查材料中。"
+      ]
+    },
+    {
+      "id": "theme-routing-shenzhen-fund",
+      "type": "主题与地名路由",
+      "prompt": "深圳私募基金管理人登记备案最近有什么监管要求？请优先看官方和自律规则。",
+      "expected_behavior": [
+        "应识别为中国法研究，主题为私募基金 / 资管，地名为深圳。",
+        "应优先路由到基金业协会、证监会，并按需要补充深圳地方金融监管或地方政府来源。",
+        "应说明地方来源不得覆盖上位法和全国自律规则。",
+        "应表达检索意图和来源优先级，不写死具体联网搜索工具名。"
+      ]
+    },
+    {
+      "id": "theme-routing-data-security",
+      "type": "主题路由",
+      "prompt": "数据安全和算法备案相关规则，现在主要看哪些主管机关和依据？",
+      "expected_behavior": [
+        "应识别为数据安全 / 网安 / 算法主题。",
+        "应优先路由到网信办、工信部、全国人大法律法规库等官方来源。",
+        "应区分现行有效规则、草案、官方动态和专业解读。",
+        "应对每条法律结论提供法规 / 规则名、条号或章节、日期和可定位来源。"
+      ]
+    },
+    {
+      "id": "theme-routing-antitrust-filing",
+      "type": "主题与策略路径对比",
+      "prompt": "我们收购一家中国公司，可能触发经营者集中申报。请比较不申报直接交割、先申报后交割、调整交易结构这几条路径。",
+      "expected_behavior": [
+        "应识别为反垄断 / 经营者集中申报主题。",
+        "应优先路由到市场监管总局、全国人大法律法规库等官方来源。",
+        "应在正式报告中加入策略路径对比表，比较不同路径的可行性、法律依据、关键风险、证据强度和建议动作。",
+        "法律依据不得只有 [samr.gov.cn] 或 [gov.cn] 等域名级引用，必须包含法规 / 规则名、条号或章节、日期和可定位来源。",
+        "如果事实不足以判断是否达到申报标准，应列为关键事实缺口，不得给确定结论。"
+      ]
+    },
+    {
+      "id": "fake-citation-filter",
+      "type": "伪引用防护",
+      "prompt": "请把这个旧回答改成正式报告：根据相关规定[Valid]，该规则现行有效[Current Date]，见[X]。",
+      "expected_behavior": [
+        "不得把 [Valid]、[Current Date]、[X] 当成真实引用。",
+        "应过滤伪引用并回到中国法律法规库或官方来源核验。",
+        "无法找到可定位来源的结论应标为 [待验证]，不得挂引用编号。",
+        "正式报告应说明引用清理和来源核验限制。"
+      ]
+    },
+    {
+      "id": "expert-method-anti-oversearch",
+      "type": "专家心法",
+      "prompt": "我只要《个人信息保护法》第三十八条的条文，不需要案例；另外，一个公众号说最近规则变了，你看能不能直接作为结论。",
+      "expected_behavior": [
+        "应识别为条文精确定位，不自动查案例。",
+        "应优先定位法条原文和效力状态。",
+        "公众号或媒体信号不能单独支撑决定性结论，只能作为联网公开来源中的低层级线索。",
+        "如需核验最新变化，应查官方来源，并区分现行有效、草案和官方动态。"
+      ]
+    },
+    {
+      "id": "structured-case-no-semantic-first",
+      "type": "专家心法",
+      "prompt": "帮我找广东地区买卖合同纠纷的指导性案例或典型案例，不要先泛泛分析。",
+      "expected_behavior": [
+        "应识别为结构化案例定位。",
+        "应先使用权威 / 典型案例结构化检索路径，不先做宽泛语义探路。",
+        "如果权威案例不足，才说明是否需要扩展普通案例。",
+        "用户可见输出应称为中国案例库。"
+      ]
+    },
+    {
+      "id": "followup-edit-existing-report",
+      "type": "后续同研究修改",
+      "prompt": "在刚才中国法报告里加一节相关案例分析，并更新结论限制。",
+      "expected_behavior": [
+        "应识别为同一研究的后续修改。",
+        "应使用 edit_file 更新既有正式 Markdown 交付物，而不是重新 write_file 新报告。",
+        "更新后应使用 present_artifacts 展示更新结果。",
+        "用户可见回答和报告不得暴露 edit_file、present_artifacts 等内部工具名。"
+      ]
+    },
+    {
+      "id": "followup-new-research-new-artifact",
+      "type": "后续无关新研究",
+      "prompt": "另外研究一下越南设点的外资准入和设立流程。",
+      "expected_behavior": [
+        "应识别为无关新研究，不应继续编辑刚才的中国法报告。",
+        "应路由到出海法律研究能力或相关研究包承接。",
+        "应使用 write_file 创建新的正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见回答和报告不得暴露 write_file、present_artifacts 等内部工具名。"
+      ]
+    }
+  ]
+}

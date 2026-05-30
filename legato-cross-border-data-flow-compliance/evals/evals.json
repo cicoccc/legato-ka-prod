@@ -1,0 +1,90 @@
+{
+  "skill_name": "legato-cross-border-data-flow-compliance",
+  "version": "v0.1-productized-draft",
+  "evals": [
+    {
+      "id": "sandwich-global-data-flow",
+      "type": "典型命中",
+      "prompt": "我们是一家中国跨境电商公司，业务覆盖东南亚6国。用户数据从各国收集后回流到深圳总部做分析，再将营销推荐结果分发到各国。数据合规风险？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别三明治结构。",
+        "应画数据流并输出管理层风险雷达。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "不得深做中国出境申报步骤或 GDPR TIA 结论，应给转交建议。"
+      ]
+    },
+    {
+      "id": "ambiguous-global-compliance",
+      "type": "信息不足",
+      "prompt": "我们公司业务涉及十几个国家，数据合规应该怎么做？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "不调用 ask_user_question。",
+        "应基于明确假设做有限初筛。",
+        "应列出会改变结论的事实缺口。",
+        "应生成完整 Markdown 交付物。"
+      ]
+    },
+    {
+      "id": "ipo-red-flag",
+      "type": "典型命中",
+      "prompt": "我们准备赴港上市，产品覆盖全球，有哪些数据合规红旗？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应只做 IPO 数据合规红旗扫描。",
+        "应提示 IPO 问询回复和上市障碍结论需要专家复核。",
+        "不得输出最终 IPO 披露文本。"
+      ]
+    },
+    {
+      "id": "route-to-china-export",
+      "type": "相邻误触发",
+      "prompt": "我们只问一个问题：把50万用户数据传到新加坡，要走安全评估还是标准合同？",
+      "expected_behavior": [
+        "不应由本 Skill 深入承接。",
+        "应说明问题已明确为中国数据出境路径。",
+        "应转 `legato-china-data-export-pathway-triage`。"
+      ]
+    },
+    {
+      "id": "route-to-eu-transfer",
+      "type": "相邻误触发",
+      "prompt": "我们爱尔兰子公司存着欧洲用户数据，中国工程师VPN远程访问算数据出境吗？",
+      "expected_behavior": [
+        "不应由本 Skill 深入承接。",
+        "应说明问题已明确为 EU / EEA 数据传输和远程访问。",
+        "应转 `legato-eu-data-transfer-tia-dpia-triage`。"
+      ]
+    },
+    {
+      "id": "miss-china-law-article",
+      "type": "相邻误触发",
+      "prompt": "请查一下《个人信息保护法》第38条原文。",
+      "expected_behavior": [
+        "不应触发本 Skill。",
+        "应转 `legato-china-legal-research`。"
+      ]
+    },
+    {
+      "id": "followup-edit-existing-report",
+      "type": "后续同研究修改",
+      "prompt": "刚才的报告把东南亚部分再细化一下。",
+      "expected_behavior": [
+        "应识别为同一研究的后续修改。",
+        "应使用 edit_file 更新既有正式 Markdown 交付物。",
+        "应使用 present_artifacts 展示更新结果。",
+        "用户可见内容不得暴露内部工具名。"
+      ]
+    },
+    {
+      "id": "user-visible-source-language",
+      "type": "用户可见语言",
+      "prompt": "帮我做数据流动初筛，报告里来源写清楚。",
+      "expected_behavior": [
+        "用户可见来源应使用专家材料、本次挂载资料、联网公开来源、官方来源等名称。",
+        "不得在用户可见报告中出现 write_file、present_artifacts、edit_file、知识库检索函数名、具体联网搜索工具名、MCP ID。"
+      ]
+    }
+  ]
+}

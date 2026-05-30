@@ -1,0 +1,116 @@
+{
+  "skill_name": "legato-investment-target-screening",
+  "version": "v0.1-productized",
+  "evals": [
+    {
+      "id": "typical-vc-screening",
+      "type": "典型命中",
+      "prompt": "帮我看一下深圳某某科技有限公司这家公司靠不靠谱，我们准备投他们的 A 轮。",
+      "expected_behavior": [
+        "应触发本 Skill，识别为投资标的筛查。",
+        "应先读取 references/expert-method.md 确认六维扫描顺序和法律红旗规则。",
+        "调用企业数据前应读取 references/mcp-routing.md 确认必需 / 可选 MCP 工具和调用边界。",
+        "输出正式报告前应读取 references/output-and-citation-rules.md 检查数据引用、未披露字段和结论强度。",
+        "应使用 qcc-company 做工商核验和股权穿透。",
+        "应使用 qcc-risk 做核心风险扫描。",
+        "应使用 write_file 生成 8 章正式 Markdown 报告，并使用 present_artifacts 展示。",
+        "报告中应包含红绿灯结论和法律红旗清单。",
+        "用户可见输出应称为企业工商与风险数据，不暴露企查查、MCP 等内部名称。"
+      ]
+    },
+    {
+      "id": "typical-early-stage",
+      "type": "典型命中",
+      "prompt": "我有个 Pre-A 的项目，公司叫杭州某某智能科技，帮我快速出个画像。",
+      "expected_behavior": [
+        "应识别为投资标的筛查（画像速览场景）。",
+        "Pre-A 项目 get_financial_data 大概率返回空，应标注财务数据未获取。",
+        "应使用 write_file 生成正式 Markdown 报告，并使用 present_artifacts 展示。",
+        "应明确说明报告仅供初步筛查，不替代完整尽调。"
+      ]
+    },
+    {
+      "id": "near-miss-supplier",
+      "type": "相邻误触发",
+      "prompt": "我们采购部门要评估一家供应商的资质，帮我看一下这家公司是否合规。",
+      "expected_behavior": [
+        "应识别为供应商评估场景，不属于投资标的筛查。",
+        "应说明本 Skill 仅覆盖投资场景的企业法律筛查，供应商准入评估需其他能力承接。"
+      ]
+    },
+    {
+      "id": "near-miss-legal-research",
+      "type": "相邻误触发",
+      "prompt": "我想了解一下中国对赌协议的法律效力，最近有没有新的司法解释？",
+      "expected_behavior": [
+        "应识别为中国法律研究问题，不属于投资标的筛查。",
+        "应路由到中国法律研究 Skill。",
+        "可说明如果在投资筛查过程中遇到对赌协议问题，可以结合法规库补充法律依据。"
+      ]
+    },
+    {
+      "id": "insufficient-info",
+      "type": "信息不足",
+      "prompt": "帮我看一家公司，名字我忘了，是一家做 AI 的公司，在北京。",
+      "expected_behavior": [
+        "不进入即时追问流程。",
+        "应说明无法基于模糊描述识别目标公司，需要提供确切公司名称或统一社会信用代码。",
+        "不编造企业名称或做猜测性搜索。"
+      ]
+    },
+    {
+      "id": "web-search-verification",
+      "type": "联网默认开启",
+      "prompt": "帮我筛查一下某某公司，最近听说他们被处罚了，看看有没有相关新闻。",
+      "expected_behavior": [
+        "应使用 MCP 查询行政处罚记录。",
+        "应使用联网公开来源搜索最新处罚新闻和舆情。",
+        "应区分 MCP 结构化数据和联网新闻信号，分别标注来源。",
+        "用户可见输出应称为企业工商与风险数据和联网公开来源。"
+      ]
+    },
+    {
+      "id": "limited-knowledge-scope",
+      "type": "限定知识库范围",
+      "prompt": "只基于我本次挂载的项目资料，看看这家目标公司的工商信息和我们内部评估是否一致。",
+      "expected_behavior": [
+        "应使用 query_legato_ragflow 检索当前前端限定范围。",
+        "不得自行选择知识库、文件夹或文件。",
+        "应同时使用企查查 MCP 获取最新工商数据进行交叉比对。",
+        "应使用 write_file 生成正式 Markdown 报告，并使用 present_artifacts 展示。"
+      ]
+    },
+    {
+      "id": "user-visible-language",
+      "type": "用户可见语言",
+      "prompt": "帮我对这家公司做投资筛查，报告里说明你用了哪些数据来源。",
+      "expected_behavior": [
+        "用户可见来源说明应使用企业工商与风险数据、联网公开来源等名称。",
+        "不得在聊天回答、报告、脚注或来源说明中出现 qcc-company、qcc-risk、MCP、企查查、元典等内部名称。",
+        "内部工具名只可出现在运行 trace、eval 内部预期或研发排查材料中。"
+      ]
+    },
+    {
+      "id": "red-flag-with-legal-interpretation",
+      "type": "专家心法",
+      "prompt": "帮我筛查某某投资公司，重点关注创始人有没有被执行或限高。",
+      "expected_behavior": [
+        "应识别为投资标的筛查，用户特别关注管理层信用。",
+        "应使用 qcc-executive 对创始人做 4 项红线快扫。",
+        "如有红线触发，应给出法律影响解读和 TS/SPA 保护条款建议。",
+        "不应只展示数据，应有法律视角的分析。"
+      ]
+    },
+    {
+      "id": "followup-edit-existing",
+      "type": "后续同研究修改",
+      "prompt": "刚才那份筛查报告里，帮我加上这家公司的知产出质情况。",
+      "expected_behavior": [
+        "应识别为同一研究的后续修改。",
+        "应使用 qcc-ipr 的 get_ipr_pledge 查询知产出质。",
+        "应使用 edit_file 更新既有报告，而不是重新 write_file。",
+        "更新后应使用 present_artifacts 展示更新结果。"
+      ]
+    }
+  ]
+}

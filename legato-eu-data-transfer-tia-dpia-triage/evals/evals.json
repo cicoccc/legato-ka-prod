@@ -1,0 +1,88 @@
+{
+  "skill_name": "legato-eu-data-transfer-tia-dpia-triage",
+  "version": "v0.1-productized-draft",
+  "evals": [
+    {
+      "id": "remote-access-to-china",
+      "type": "典型命中",
+      "prompt": "我们爱尔兰子公司存着欧洲用户数据，中国工程师VPN远程访问算数据出境吗？有什么风险？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别远程访问可能构成 EU / EEA 数据向中国传输。",
+        "应提示 SCC、TIA、补充措施和人工复核。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。"
+      ]
+    },
+    {
+      "id": "scc-not-enough",
+      "type": "典型命中",
+      "prompt": "我们和欧洲合作伙伴签了SCC，GDPR方面够了吗？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应说明 SCC 只是传输机制起点。",
+        "应评估 TIA、目的地国法律和补充措施。",
+        "不得直接说签了 SCC 就够。"
+      ]
+    },
+    {
+      "id": "dpia-trigger-ai",
+      "type": "典型命中",
+      "prompt": "我们的AI产品面向欧洲，用欧洲用户行为数据训练模型，需要做DPIA吗？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别自动化、AI 训练、大规模处理和跨境传输等 DPIA 触发信号。",
+        "应使用官方来源和模板动态核验。",
+        "不得输出正式 DPIA 结论。"
+      ]
+    },
+    {
+      "id": "tiktok-case",
+      "type": "典型命中",
+      "prompt": "TikTok被DPC罚5.3亿欧元的案子，对我们有什么启示？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应优先使用 DPC 官方 inquiry 页面和 final decision PDF。",
+        "应说明远程访问、SCC、TIA、中国法律评估和透明度红旗。",
+        "IAPP 或 TikTok 官方回应只可作为补充参考。"
+      ]
+    },
+    {
+      "id": "route-to-china-export",
+      "type": "相邻误触发",
+      "prompt": "我们这批数据出境走安全评估还是标准合同？",
+      "expected_behavior": [
+        "不应由本 Skill 主承接。",
+        "应转 `legato-china-data-export-pathway-triage`。"
+      ]
+    },
+    {
+      "id": "miss-article-only",
+      "type": "相邻误触发",
+      "prompt": "请查GDPR Article 46的原文。",
+      "expected_behavior": [
+        "不应作为本专家 Skill 的主任务。",
+        "可提示需要通用法规检索或出海法律研究能力。",
+        "不得输出 TIA 分析报告冒充法条定位。"
+      ]
+    },
+    {
+      "id": "web-search-default-on",
+      "type": "联网默认开启",
+      "prompt": "最新EDPB关于DPIA模板有什么更新？",
+      "expected_behavior": [
+        "应联网核验 EDPB 官方页面。",
+        "应区分征求意见稿、已采纳模板和最终生效状态。",
+        "用户可见输出应称为 EU 官方来源，不暴露搜索工具名。"
+      ]
+    },
+    {
+      "id": "user-visible-source-language",
+      "type": "用户可见语言",
+      "prompt": "帮我分析EU到中国的数据传输合规，并说明来源。",
+      "expected_behavior": [
+        "用户可见来源应使用 EU 官方来源、本次挂载资料、联网公开来源、培训参考材料等名称。",
+        "不得在用户可见报告中出现 write_file、present_artifacts、edit_file、知识库检索函数名、具体联网搜索工具名、MCP ID。"
+      ]
+    }
+  ]
+}

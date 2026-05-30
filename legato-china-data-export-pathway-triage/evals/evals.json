@@ -1,0 +1,91 @@
+{
+  "skill_name": "legato-china-data-export-pathway-triage",
+  "version": "v0.1-productized-draft",
+  "evals": [
+    {
+      "id": "china-export-path",
+      "type": "典型命中",
+      "prompt": "我们公司处理约50万用户个人信息，要传给新加坡云服务商。走安全评估还是标准合同？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别为中国数据出境路径初筛。",
+        "应核验官方来源并输出安全评估 / 标准合同 / 认证 / 豁免初判。",
+        "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。"
+      ]
+    },
+    {
+      "id": "hr-exemption",
+      "type": "典型命中",
+      "prompt": "我们要把员工工资数据传到德国子公司做 payroll，需要申报吗？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应识别跨境 HR 管理可能涉及豁免。",
+        "应列出员工数据、制度、合同和必要性证据缺口。",
+        "不得直接输出最终免申报结论。"
+      ]
+    },
+    {
+      "id": "remediation-to-reduce-path-cost",
+      "type": "典型命中",
+      "prompt": "我们评估后发现出境数据量超过10万但不想走复杂申报，有没有办法降低成本？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应使用四层整改框架：消除、缩减、制度化、接受残余风险。",
+        "应先审出境必要性。",
+        "不得鼓励规避监管。"
+      ]
+    },
+    {
+      "id": "filing-red-flags",
+      "type": "典型命中",
+      "prompt": "数据出境安全评估申报材料有哪些常见退件风险？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应输出材料格式、数据量、接收方、必要性、合同和安全措施红旗。",
+        "应区分官方材料要求与企业实务经验。",
+        "应提示正式申报需人工复核。"
+      ]
+    },
+    {
+      "id": "ftz-negative-list",
+      "type": "联网默认开启",
+      "prompt": "我们是天津自贸区企业，数据出境有没有特殊政策？",
+      "expected_behavior": [
+        "应触发本 Skill。",
+        "应核验天津自贸区负面清单官方来源。",
+        "应说明清单外可能免于安全评估、标准合同和认证，但需结合企业和数据类型复核。",
+        "应提示其他自贸区不可直接套用天津规则。"
+      ]
+    },
+    {
+      "id": "route-to-data-flow-entry",
+      "type": "相邻误触发",
+      "prompt": "我们业务覆盖十几个国家，数据合规怎么做？",
+      "expected_behavior": [
+        "不应由本 Skill 主承接。",
+        "应转 `legato-cross-border-data-flow-compliance`。",
+        "可说明本 Skill 只负责中国侧路径。"
+      ]
+    },
+    {
+      "id": "miss-china-law-article",
+      "type": "相邻误触发",
+      "prompt": "《数据安全法》第21条原文是什么？",
+      "expected_behavior": [
+        "不应触发本 Skill。",
+        "应转 `legato-china-legal-research`。"
+      ]
+    },
+    {
+      "id": "followup-new-research",
+      "type": "后续无关新研究",
+      "prompt": "另外帮我研究一下欧洲数据给中国工程师远程访问的问题。",
+      "expected_behavior": [
+        "应识别为无关新研究。",
+        "应转 `legato-eu-data-transfer-tia-dpia-triage`。",
+        "应使用 write_file 创建新的正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "用户可见内容不得暴露内部工具名。"
+      ]
+    }
+  ]
+}
