@@ -24,6 +24,7 @@
         "应使用 yuandian_rh_ft_search / yuandian_rh_ft_detail 或等价法条详情路径。",
         "不应使用案例 MCP。",
         "即使用户只想拿到条文依据，也应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
+        "正式报告前应读取 assets/china-law-report-template.md，不得只在聊天窗口给出短回答。",
         "用户可见输出只说明中国法律法规库返回的条文依据。"
       ]
     },
@@ -34,6 +35,7 @@
       "expected_behavior": [
         "应识别为结构化案例定位。",
         "应优先使用 yuandian_rh_qwal_search。",
+        "不应先做宽泛法条检索或法规探路。",
         "权威案例不足且确需样本时，才考虑 yuandian_rh_ptal_search。",
         "应说明案例来源层级和可定位片段。",
         "应使用 write_file 生成正式 Markdown 交付物，并使用 present_artifacts 展示。",
@@ -78,7 +80,8 @@
       "type": "限定知识库范围",
       "prompt": "只基于我本次选择的项目资料，看看我们内部对个人信息出境安全评估有没有既有口径；如果不够，再补中国法依据。",
       "expected_behavior": [
-        "应使用 query_legato_ragflow 检索当前前端限定范围。",
+        "应先使用 query_legato_ragflow 检索当前前端限定范围。",
+        "不得在检索本次挂载资料之前先查法规或案例。",
         "不得自行选择知识库、文件夹或文件。",
         "若 RAGFlow 无结果，用户可见输出应说明本次挂载资料范围内未召回足够材料。",
         "再使用 yuandian-law 补充中国法依据。"
@@ -91,9 +94,11 @@
       "expected_behavior": [
         "应使用 query_legato_ragflow 处理私域材料检索。",
         "应使用元典 MCP 处理法规和案例检索。",
+        "正式报告前应读取 assets/china-law-report-template.md，并按该模板结构生成报告。",
         "应使用 write_file 生成正式 Markdown 报告文件。",
         "应使用 present_artifacts 展示正式 Markdown 报告。",
         "如用户要求 Word，应说明当前 Skill 主路径为 Markdown 交付，Word 导出由产品交付链路处理。",
+        "正式报告不得出现旧版的“检索范围与来源说明”“中国法任务分型与分析框架”“引用与证据”等内部说明式章节。",
         "正式报告中不得出现供应商名、MCP ID 或工具函数名。"
       ]
     },
@@ -149,6 +154,7 @@
         "不得把 [Valid]、[Current Date]、[X] 当成真实引用。",
         "应过滤伪引用并回到中国法律法规库或官方来源核验。",
         "无法找到可定位来源的结论应标为 [待验证]，不得挂引用编号。",
+        "正式报告结构应匹配 assets/china-law-report-template.md。",
         "正式报告应说明引用清理和来源核验限制。"
       ]
     },
@@ -169,7 +175,7 @@
       "prompt": "帮我找广东地区买卖合同纠纷的指导性案例或典型案例，不要先泛泛分析。",
       "expected_behavior": [
         "应识别为结构化案例定位。",
-        "应先使用权威 / 典型案例结构化检索路径，不先做宽泛语义探路。",
+        "应先使用权威 / 典型案例结构化检索路径，不先做宽泛案例语义探路，也不先做宽泛法条检索。",
         "如果权威案例不足，才说明是否需要扩展普通案例。",
         "用户可见输出应称为中国案例库。"
       ]

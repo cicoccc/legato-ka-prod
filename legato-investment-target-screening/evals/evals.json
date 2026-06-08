@@ -11,10 +11,12 @@
         "应先读取 references/expert-method.md 确认六维扫描顺序和法律红旗规则。",
         "调用企业数据前应读取 references/mcp-routing.md 确认必需 / 可选 MCP 工具和调用边界。",
         "输出正式报告前应读取 references/output-and-citation-rules.md 检查数据引用、未披露字段和结论强度。",
+        "输出正式报告前应读取 assets/investment-screening-report-template.md，并按完整模板结构生成报告。",
         "应使用 qcc-company 做工商核验和股权穿透。",
         "应使用 qcc-risk 做核心风险扫描。",
-        "应使用 write_file 生成 8 章正式 Markdown 报告，并使用 present_artifacts 展示。",
+        "应使用 write_file 生成正式 Markdown 报告，并使用 present_artifacts 展示。",
         "报告中应包含红绿灯结论和法律红旗清单。",
+        "报告的数据覆盖说明应使用数据来源类型和未覆盖维度，不得出现内部数据源编号表述。",
         "用户可见输出应称为企业工商与风险数据，不暴露企查查、MCP 等内部名称。"
       ]
     },

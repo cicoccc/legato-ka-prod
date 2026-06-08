@@ -72,6 +72,7 @@ description: 当用户明确询问 GDPR 下 EU / EEA 数据向中国或第三国
 | 需要检索 EDPB、EUR-Lex、欧委会或 DPA 材料 | `references/search-strategy.md` | 确认已收录来源、官方域名搜索和 DPA 搜索的顺序 | 再执行联网核验 |
 | 需要构造 TIA、DPIA、SCC 或远程访问 query | `references/search-templates.md` | 复用欧盟官方域名、DPA 和案例查询模板 | 再调用联网搜索；不得自行泛化 query |
 | 准备输出传输风险初筛或正式报告 | `references/output-and-citation-rules.md` | 检查 GDPR / EDPB / 判例引用、风险标签和人工复核边界 | 再生成交付物 |
+| 准备生成正式报告、更新既有交付物或创建无关新研究交付物 | `assets/eu-data-transfer-tia-dpia-report-template.md` | 使用正式报告模板作为唯一结构真源，避免只输出聊天短答或沿用旧报告结构 | 再调用 `write_file` / `edit_file` 和 `present_artifacts` |
 
 ## 任务分型
 
@@ -119,7 +120,7 @@ description: 当用户明确询问 GDPR 下 EU / EEA 数据向中国或第三国
 
 聊天窗口只放传输初判、关键依据、TIA / DPIA 红旗、行动清单和交付物状态；聊天摘要不能替代正式交付物。
 
-正式报告使用 `assets/eu-data-transfer-tia-dpia-report-template.md`。同一研究后续修改用 `edit_file` 更新原报告；无关新研究新建交付物。官方来源核验范围按 Reference 使用路由中的 `references/official-source-verification.md` 执行。
+正式报告必须先读取并使用 `assets/eu-data-transfer-tia-dpia-report-template.md`。同一研究后续修改用 `edit_file` 更新原报告；无关新研究新建交付物。官方来源核验范围按 Reference 使用路由中的 `references/official-source-verification.md` 执行。
 
 ## 文件导航
 

@@ -132,7 +132,7 @@
 
 - 已完成 6 个维度的 MCP 数据收集。
 - 已识别所有红旗信号并给出法律影响和建议行动。
-- 已生成完整 8 章报告。
+- 已按 `assets/investment-screening-report-template.md` 生成完整正式报告。
 
 不能停止：
 
